@@ -183,32 +183,32 @@ public class Annotations
         return (maxItems != null) ? maxItems.value() : null;
     }
 
-    public Class<?>[] allOf()
+    public TypeDefinition[] allOf()
     {
         AllOf allOf = annotation(AllOf.class);
 
-        return (allOf != null) ? allOf.value() : null;
+        return (allOf != null) ? TypeDefinition.fromList(allOf.value()) : null;
     }
 
-    public Class<?>[] anyOf()
+    public TypeDefinition[] anyOf()
     {
         AnyOf anyOf = annotation(AnyOf.class);
 
-        return (anyOf != null) ? anyOf.value() : null;
+        return (anyOf != null) ? TypeDefinition.fromList(anyOf.value()) : null;
     }
 
-    public Class<?>[] oneOf()
+    public TypeDefinition[] oneOf()
     {
         OneOf oneOf = annotation(OneOf.class);
 
-        return (oneOf != null) ? oneOf.value() : null;
+        return (oneOf != null) ? TypeDefinition.fromList(oneOf.value()) : null;
     }
 
-    public Class<?> not()
+    public TypeDefinition not()
     {
         Not not = annotation(Not.class);
 
-        return (not != null) ? not.value() : null;
+        return (not != null) ? new TypeDefinition(not.value()) : null;
     }
 
     public String defaultValue()

@@ -1,16 +1,16 @@
 package com.mauriciotogneri.jsonschema;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
-public class Definitions
+public class Definitions implements Iterable<TypeDefinition>
 {
-    private final Map<String, Class<?>> classes;
+    private final Map<String, TypeDefinition> definitions;
 
     public Definitions(TypeDefinition typeDefinition)
     {
-        this.classes = new HashMap<>();
+        this.definitions = new HashMap<>();
         addType(typeDefinition);
     }
 
@@ -20,15 +20,15 @@ public class Definitions
         {
             if (typeDefinition.isArray())
             {
-                addType(new TypeDefinition(typeDefinition.componentType()));
+                addType(typeDefinition.componentType());
             }
             else
             {
                 String className = typeDefinition.name();
 
-                if (!classes.containsKey(className))
+                if (!definitions.containsKey(className))
                 {
-                    classes.put(className, typeDefinition.clazz());
+                    definitions.put(className, typeDefinition);
 
                     for (FieldDefinition field : typeDefinition.fields())
                     {
@@ -39,8 +39,9 @@ public class Definitions
         }
     }
 
-    public Collection<Class<?>> classes()
+    @Override
+    public Iterator<TypeDefinition> iterator()
     {
-        return classes.values();
+        return definitions.values().iterator();
     }
 }

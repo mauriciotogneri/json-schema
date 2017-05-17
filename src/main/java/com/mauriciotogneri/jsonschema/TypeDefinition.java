@@ -14,11 +14,6 @@ public class TypeDefinition
         this.clazz = clazz;
     }
 
-    public Class<?> clazz()
-    {
-        return clazz;
-    }
-
     public String name()
     {
         return clazz.getCanonicalName();
@@ -43,9 +38,9 @@ public class TypeDefinition
         return clazz.getEnumConstants();
     }
 
-    public Class<?> componentType()
+    public TypeDefinition componentType()
     {
-        return clazz.getComponentType();
+        return new TypeDefinition(clazz.getComponentType());
     }
 
     public Boolean isString()
@@ -96,5 +91,17 @@ public class TypeDefinition
     public Boolean isPrimitive()
     {
         return (isString() || isBoolean() || isInteger() || isNumber() || isDate() || isUri() || isFile() || isEnum());
+    }
+
+    public static TypeDefinition[] fromList(Class<?>[] list)
+    {
+        TypeDefinition[] result = new TypeDefinition[list.length];
+
+        for (int i = 0; i < list.length; i++)
+        {
+            result[i] = new TypeDefinition(list[i]);
+        }
+
+        return result;
     }
 }

@@ -16,10 +16,15 @@ public class JsonSchema
     private static final String TYPE_ARRAY = "array";
     private static final String TYPE_FILE = "file";
 
+    private JsonSchema(TypeDefinition typeDefinition)
+    {
+        this.typeDefinition = typeDefinition;
+        this.definitions = new Definitions(typeDefinition);
+    }
+
     public JsonSchema(Class<?> clazz)
     {
-        this.typeDefinition = new TypeDefinition(clazz);
-        this.definitions = new Definitions(typeDefinition);
+        this(new TypeDefinition(clazz));
     }
 
     public JsonObject schema()
@@ -29,10 +34,10 @@ public class JsonSchema
 
         JsonObject defs = new JsonObject();
 
-        for (Class<?> clazz : definitions.classes())
+        for (TypeDefinition definition : definitions)
         {
-            JsonSchema jsonSchema = new JsonSchema(clazz);
-            defs.add(clazz.getCanonicalName(), jsonSchema.schema(false));
+            JsonSchema jsonSchema = new JsonSchema(definition);
+            defs.add(definition.name(), jsonSchema.schema(false));
         }
 
         if (defs.size() > 0)
