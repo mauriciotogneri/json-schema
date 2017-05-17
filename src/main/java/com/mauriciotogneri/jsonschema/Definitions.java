@@ -12,16 +12,16 @@ public class Definitions
     public Definitions(TypeDefinition typeDef)
     {
         this.classes = new HashMap<>();
-        add(typeDef);
+        addType(typeDef);
     }
 
-    private void add(TypeDefinition typeDef)
+    private void addType(TypeDefinition typeDef)
     {
         if (!typeDef.isPrimitive())
         {
             if (typeDef.isArray())
             {
-                add(new TypeDefinition(typeDef.componentType()));
+                addType(new TypeDefinition(typeDef.componentType()));
             }
             else
             {
@@ -33,7 +33,7 @@ public class Definitions
 
                     for (Field field : typeDef.fields())
                     {
-                        add(new TypeDefinition(field.getType()));
+                        addType(new TypeDefinition(field.getType()));
                     }
                 }
             }

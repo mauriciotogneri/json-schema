@@ -3,6 +3,7 @@ package com.mauriciotogneri.jsonschema;
 import com.mauriciotogneri.jsonschema.annotations.AdditionalItems;
 import com.mauriciotogneri.jsonschema.annotations.AdditionalProperties;
 import com.mauriciotogneri.jsonschema.annotations.Default;
+import com.mauriciotogneri.jsonschema.annotations.Description;
 import com.mauriciotogneri.jsonschema.annotations.ExclusiveMaximum;
 import com.mauriciotogneri.jsonschema.annotations.ExclusiveMinimum;
 import com.mauriciotogneri.jsonschema.annotations.Format;
@@ -19,7 +20,6 @@ import com.mauriciotogneri.jsonschema.annotations.Name;
 import com.mauriciotogneri.jsonschema.annotations.Optional;
 import com.mauriciotogneri.jsonschema.annotations.Pattern;
 import com.mauriciotogneri.jsonschema.annotations.UniqueItems;
-import com.sun.org.glassfish.gmbal.Description;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -171,11 +171,11 @@ public class Annotations
         return (maxItems != null) ? maxItems.value() : null;
     }
 
-    public String defaultValue()
+    public String[] defaultValue()
     {
         Default defaultValue = annotation(Default.class);
 
-        return (defaultValue != null) ? String.join("; ", defaultValue.value()) : null;
+        return (defaultValue != null) ? defaultValue.value() : null;
     }
 
     @SuppressWarnings("unchecked")

@@ -87,8 +87,14 @@ public class JsonSchema
         for (Field field : typeDef.fields())
         {
             Annotations annotations = new Annotations(field);
-            String name = field.getName();
             TypeDefinition typeDef = new TypeDefinition(field.getType());
+
+            String name = field.getName();
+
+            if (annotations.name() != null)
+            {
+                name = annotations.name();
+            }
 
             JsonObject fieldObject = new JsonObject();
 
