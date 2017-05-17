@@ -16,7 +16,7 @@ public class Definitions implements Iterable<TypeDefinition>
 
     private void addType(TypeDefinition typeDefinition)
     {
-        if (!typeDefinition.isPrimitive())
+        if (!typeDefinition.isPrimitive() && !typeDefinition.isRootObject())
         {
             if (typeDefinition.isArray())
             {

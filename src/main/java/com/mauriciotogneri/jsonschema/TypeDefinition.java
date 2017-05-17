@@ -93,6 +93,11 @@ public class TypeDefinition
         return (isString() || isBoolean() || isInteger() || isNumber() || isDate() || isUri() || isFile() || isEnum());
     }
 
+    public Boolean isRootObject()
+    {
+        return (clazz.equals(Object.class));
+    }
+
     public static TypeDefinition[] fromList(Class<?>[] list)
     {
         TypeDefinition[] result = new TypeDefinition[list.length];

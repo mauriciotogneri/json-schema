@@ -1,8 +1,11 @@
 package com.mauriciotogneri.jsonschema.app;
 
+import com.mauriciotogneri.jsonschema.annotations.OneOf;
+
 public class Child
 {
     Long id;
 
-    Integer age;
+    @OneOf({Integer.class, Float.class})
+    Object age;
 }

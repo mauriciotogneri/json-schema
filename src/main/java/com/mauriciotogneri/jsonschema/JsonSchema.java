@@ -36,8 +36,8 @@ public class JsonSchema
 
         for (TypeDefinition definition : definitions)
         {
-            JsonSchema jsonSchema = new JsonSchema(definition);
-            defs.add(definition.name(), jsonSchema.schema(false));
+            JsonSchema schema = new JsonSchema(definition);
+            defs.add(definition.name(), schema.schema(false));
         }
 
         if (defs.size() > 0)
@@ -113,6 +113,43 @@ public class JsonSchema
     {
         JsonObject json = new JsonObject();
 
+        TypeDefinition[] allOf = annotations.allOf();
+
+        if (allOf != null)
+        {
+            fillMultipleTypes(json, "allOf", allOf);
+
+            return json;
+        }
+
+        TypeDefinition[] anyOf = annotations.anyOf();
+
+        if (anyOf != null)
+        {
+            fillMultipleTypes(json, "anyOf", anyOf);
+
+            return json;
+        }
+
+        TypeDefinition[] oneOf = annotations.oneOf();
+
+        if (oneOf != null)
+        {
+            fillMultipleTypes(json, "oneOf", oneOf);
+
+            return json;
+        }
+
+        TypeDefinition not = annotations.not();
+
+        if (not != null)
+        {
+            JsonSchema schema = new JsonSchema(typeDefinition);
+            json.add("not", schema.schema(true));
+
+            return json;
+        }
+
         TypeDefinition typeDefinition = field.typeDefinition();
 
         if (typeDefinition.isPrimitive())
@@ -131,6 +168,19 @@ public class JsonSchema
         applyAnnotations(json, annotations);
 
         return json;
+    }
+
+    private void fillMultipleTypes(JsonObject json, String name, TypeDefinition[] typeDefinitions)
+    {
+        JsonArray types = new JsonArray();
+
+        for (TypeDefinition typeDefinition : typeDefinitions)
+        {
+            JsonSchema schema = new JsonSchema(typeDefinition);
+            types.add(schema.schema(true));
+        }
+
+        json.add(name, types);
     }
 
     private void fillPrimitive(JsonObject json, TypeDefinition typeDefinition)
@@ -185,8 +235,8 @@ public class JsonSchema
     {
         json.addProperty("type", TYPE_ARRAY);
 
-        JsonSchema componentSchema = new JsonSchema(typeDefinition.componentType());
-        json.add("items", componentSchema.schema(true));
+        JsonSchema schema = new JsonSchema(typeDefinition.componentType());
+        json.add("items", schema.schema(true));
     }
 
     private void fillReference(JsonObject json, TypeDefinition typeDefinition)
