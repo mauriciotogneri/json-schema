@@ -37,12 +37,15 @@ public class JsonSchema
             defs.add(clazz.getCanonicalName(), jsonSchema.schema(false));
         }
 
-        root.add("definitions", defs);
+        if (defs.size() > 0)
+        {
+            root.add("definitions", defs);
+        }
 
         return root;
     }
 
-    private JsonObject schema(Boolean useReferences)
+    private JsonObject schema(boolean useReferences)
     {
         JsonObject schema = new JsonObject();
 
@@ -87,7 +90,6 @@ public class JsonSchema
         for (Field field : typeDefinition.fields())
         {
             Annotations annotations = new Annotations(field);
-            TypeDefinition fieldTypeDefinition = new TypeDefinition(field.getType());
 
             String name = field.getName();
 
@@ -96,30 +98,35 @@ public class JsonSchema
                 name = annotations.name();
             }
 
-            JsonObject fieldObject = new JsonObject();
-
-            if (fieldTypeDefinition.isPrimitive())
-            {
-                fillPrimitive(fieldObject, fieldTypeDefinition);
-            }
-            else if (fieldTypeDefinition.isArray())
-            {
-                fieldObject.addProperty("type", TYPE_ARRAY);
-
-                JsonSchema componentSchema = new JsonSchema(fieldTypeDefinition.componentType());
-                fieldObject.add("items", componentSchema.schema(true));
-            }
-            else
-            {
-                fieldObject.addProperty("$ref", String.format("#/definitions/%s", fieldTypeDefinition.name()));
-            }
-
-            applyAnnotations(fieldObject, annotations);
-
-            properties.add(name, fieldObject);
+            properties.add(name, property(field, annotations));
         }
 
         return properties;
+    }
+
+    private JsonObject property(Field field, Annotations annotations)
+    {
+        JsonObject json = new JsonObject();
+
+        TypeDefinition typeDefinition = new TypeDefinition(field.getType());
+
+        if (typeDefinition.isPrimitive())
+        {
+            fillPrimitive(json, typeDefinition);
+        }
+        else if (typeDefinition.isArray())
+        {
+            json.addProperty("type", TYPE_ARRAY);
+
+            JsonSchema componentSchema = new JsonSchema(typeDefinition.componentType());
+            json.add("items", componentSchema.schema(true));
+        }
+        else
+        {
+            json.addProperty("$ref", String.format("#/definitions/%s", typeDefinition.name()));
+        }
+
+        applyAnnotations(json, annotations);
     }
 
     private void fillPrimitive(JsonObject json, TypeDefinition typeDefinition)
