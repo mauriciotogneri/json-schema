@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
 
 public class JsonSchema
 {
-    private final TypeDefinition typeDef;
+    private final TypeDefinition typeDefinition;
     private final Definitions definitions;
 
     private static final String TYPE_STRING = "string";
@@ -20,8 +20,8 @@ public class JsonSchema
 
     public JsonSchema(Class<?> clazz)
     {
-        this.typeDef = new TypeDefinition(clazz);
-        this.definitions = new Definitions(typeDef);
+        this.typeDefinition = new TypeDefinition(clazz);
+        this.definitions = new Definitions(typeDefinition);
     }
 
     public JsonObject schema()
@@ -46,22 +46,22 @@ public class JsonSchema
     {
         JsonObject schema = new JsonObject();
 
-        if (typeDef.isPrimitive())
+        if (typeDefinition.isPrimitive())
         {
-            fillPrimitive(schema, typeDef);
+            fillPrimitive(schema, typeDefinition);
         }
-        else if (typeDef.isArray())
+        else if (typeDefinition.isArray())
         {
             schema.addProperty("type", TYPE_ARRAY);
 
-            JsonSchema componentSchema = new JsonSchema(typeDef.componentType());
+            JsonSchema componentSchema = new JsonSchema(typeDefinition.componentType());
             schema.add("items", componentSchema.schema(true));
         }
         else
         {
             if (useReferences)
             {
-                schema.addProperty("$ref", String.format("#/definitions/%s", typeDef.name()));
+                schema.addProperty("$ref", String.format("#/definitions/%s", typeDefinition.name()));
             }
             else
             {
@@ -84,10 +84,10 @@ public class JsonSchema
     {
         JsonObject properties = new JsonObject();
 
-        for (Field field : typeDef.fields())
+        for (Field field : typeDefinition.fields())
         {
             Annotations annotations = new Annotations(field);
-            TypeDefinition typeDef = new TypeDefinition(field.getType());
+            TypeDefinition fieldTypeDefinition = new TypeDefinition(field.getType());
 
             String name = field.getName();
 
@@ -98,20 +98,20 @@ public class JsonSchema
 
             JsonObject fieldObject = new JsonObject();
 
-            if (typeDef.isPrimitive())
+            if (fieldTypeDefinition.isPrimitive())
             {
-                fillPrimitive(fieldObject, typeDef);
+                fillPrimitive(fieldObject, fieldTypeDefinition);
             }
-            else if (typeDef.isArray())
+            else if (fieldTypeDefinition.isArray())
             {
                 fieldObject.addProperty("type", TYPE_ARRAY);
 
-                JsonSchema componentSchema = new JsonSchema(typeDef.componentType());
+                JsonSchema componentSchema = new JsonSchema(fieldTypeDefinition.componentType());
                 fieldObject.add("items", componentSchema.schema(true));
             }
             else
             {
-                fieldObject.addProperty("$ref", String.format("#/definitions/%s", typeDef.name()));
+                fieldObject.addProperty("$ref", String.format("#/definitions/%s", fieldTypeDefinition.name()));
             }
 
             applyAnnotations(fieldObject, annotations);
@@ -122,41 +122,41 @@ public class JsonSchema
         return properties;
     }
 
-    private void fillPrimitive(JsonObject json, TypeDefinition typeDef)
+    private void fillPrimitive(JsonObject json, TypeDefinition typeDefinition)
     {
-        if (typeDef.isString())
+        if (typeDefinition.isString())
         {
             json.addProperty("type", TYPE_STRING);
         }
-        else if (typeDef.isBoolean())
+        else if (typeDefinition.isBoolean())
         {
             json.addProperty("type", TYPE_BOOLEAN);
         }
-        else if (typeDef.isInteger())
+        else if (typeDefinition.isInteger())
         {
             json.addProperty("type", TYPE_INTEGER);
         }
-        else if (typeDef.isNumber())
+        else if (typeDefinition.isNumber())
         {
             json.addProperty("type", TYPE_NUMBER);
         }
-        else if (typeDef.isDate())
+        else if (typeDefinition.isDate())
         {
             json.addProperty("type", TYPE_STRING);
             json.addProperty("format", "date-time");
         }
-        else if (typeDef.isUri())
+        else if (typeDefinition.isUri())
         {
             json.addProperty("type", TYPE_STRING);
             json.addProperty("format", "uri");
         }
-        else if (typeDef.isFile())
+        else if (typeDefinition.isFile())
         {
             json.addProperty("type", TYPE_FILE);
         }
-        else if (typeDef.isEnum())
+        else if (typeDefinition.isEnum())
         {
-            Object[] constants = typeDef.enums();
+            Object[] constants = typeDefinition.enums();
 
             JsonArray values = new JsonArray();
 
@@ -262,7 +262,7 @@ public class JsonSchema
     {
         JsonArray required = new JsonArray();
 
-        for (Field field : typeDef.fields())
+        for (Field field : typeDefinition.fields())
         {
             Annotations annotations = new Annotations(field);
 

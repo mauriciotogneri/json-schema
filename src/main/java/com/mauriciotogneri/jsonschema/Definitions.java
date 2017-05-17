@@ -9,29 +9,29 @@ public class Definitions
 {
     private final Map<String, Class<?>> classes;
 
-    public Definitions(TypeDefinition typeDef)
+    public Definitions(TypeDefinition typeDefinition)
     {
         this.classes = new HashMap<>();
-        addType(typeDef);
+        addType(typeDefinition);
     }
 
-    private void addType(TypeDefinition typeDef)
+    private void addType(TypeDefinition typeDefinition)
     {
-        if (!typeDef.isPrimitive())
+        if (!typeDefinition.isPrimitive())
         {
-            if (typeDef.isArray())
+            if (typeDefinition.isArray())
             {
-                addType(new TypeDefinition(typeDef.componentType()));
+                addType(new TypeDefinition(typeDefinition.componentType()));
             }
             else
             {
-                String className = typeDef.name();
+                String className = typeDefinition.name();
 
                 if (!classes.containsKey(className))
                 {
-                    classes.put(className, typeDef.clazz());
+                    classes.put(className, typeDefinition.clazz());
 
-                    for (Field field : typeDef.fields())
+                    for (Field field : typeDefinition.fields())
                     {
                         addType(new TypeDefinition(field.getType()));
                     }
