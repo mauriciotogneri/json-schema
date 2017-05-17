@@ -55,10 +55,7 @@ public class JsonSchema
         }
         else if (typeDefinition.isArray())
         {
-            schema.addProperty("type", TYPE_ARRAY);
-
-            JsonSchema componentSchema = new JsonSchema(typeDefinition.componentType());
-            schema.add("items", componentSchema.schema(true));
+            fillArray(schema, typeDefinition);
         }
         else
         {
@@ -116,10 +113,7 @@ public class JsonSchema
         }
         else if (typeDefinition.isArray())
         {
-            json.addProperty("type", TYPE_ARRAY);
-
-            JsonSchema componentSchema = new JsonSchema(typeDefinition.componentType());
-            json.add("items", componentSchema.schema(true));
+            fillArray(json, typeDefinition);
         }
         else
         {
@@ -127,6 +121,16 @@ public class JsonSchema
         }
 
         applyAnnotations(json, annotations);
+
+        return json;
+    }
+
+    private void fillArray(JsonObject json, TypeDefinition typeDefinition)
+    {
+        json.addProperty("type", TYPE_ARRAY);
+
+        JsonSchema componentSchema = new JsonSchema(typeDefinition.componentType());
+        json.add("items", componentSchema.schema(true));
     }
 
     private void fillPrimitive(JsonObject json, TypeDefinition typeDefinition)
