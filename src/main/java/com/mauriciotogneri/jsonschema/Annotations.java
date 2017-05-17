@@ -1,16 +1,24 @@
 package com.mauriciotogneri.jsonschema;
 
-import com.mauriciotogneri.jsonschema.specs.annotations.Default;
-import com.mauriciotogneri.jsonschema.specs.annotations.Format;
-import com.mauriciotogneri.jsonschema.specs.annotations.MaxItems;
-import com.mauriciotogneri.jsonschema.specs.annotations.MaxLength;
-import com.mauriciotogneri.jsonschema.specs.annotations.Maximum;
-import com.mauriciotogneri.jsonschema.specs.annotations.MinItems;
-import com.mauriciotogneri.jsonschema.specs.annotations.MinLength;
-import com.mauriciotogneri.jsonschema.specs.annotations.Minimum;
-import com.mauriciotogneri.jsonschema.specs.annotations.Name;
-import com.mauriciotogneri.jsonschema.specs.annotations.Optional;
-import com.mauriciotogneri.jsonschema.specs.annotations.Pattern;
+import com.mauriciotogneri.jsonschema.annotations.AdditionalItems;
+import com.mauriciotogneri.jsonschema.annotations.AdditionalProperties;
+import com.mauriciotogneri.jsonschema.annotations.Default;
+import com.mauriciotogneri.jsonschema.annotations.ExclusiveMaximum;
+import com.mauriciotogneri.jsonschema.annotations.ExclusiveMinimum;
+import com.mauriciotogneri.jsonschema.annotations.Format;
+import com.mauriciotogneri.jsonschema.annotations.MaxItems;
+import com.mauriciotogneri.jsonschema.annotations.MaxLength;
+import com.mauriciotogneri.jsonschema.annotations.MaxProperties;
+import com.mauriciotogneri.jsonschema.annotations.Maximum;
+import com.mauriciotogneri.jsonschema.annotations.MinItems;
+import com.mauriciotogneri.jsonschema.annotations.MinLength;
+import com.mauriciotogneri.jsonschema.annotations.MinProperties;
+import com.mauriciotogneri.jsonschema.annotations.Minimum;
+import com.mauriciotogneri.jsonschema.annotations.MultipleOf;
+import com.mauriciotogneri.jsonschema.annotations.Name;
+import com.mauriciotogneri.jsonschema.annotations.Optional;
+import com.mauriciotogneri.jsonschema.annotations.Pattern;
+import com.mauriciotogneri.jsonschema.annotations.UniqueItems;
 import com.sun.org.glassfish.gmbal.Description;
 
 import java.lang.annotation.Annotation;
@@ -77,6 +85,62 @@ public class Annotations
         Maximum maximum = annotation(Maximum.class);
 
         return (maximum != null) ? maximum.value() : null;
+    }
+
+    public Float multipleOf()
+    {
+        MultipleOf multipleOf = annotation(MultipleOf.class);
+
+        return (multipleOf != null) ? multipleOf.value() : null;
+    }
+
+    public Boolean exclusiveMinimum()
+    {
+        ExclusiveMinimum exclusiveMinimum = annotation(ExclusiveMinimum.class);
+
+        return (exclusiveMinimum != null) ? exclusiveMinimum.value() : null;
+    }
+
+    public Boolean exclusiveMaximum()
+    {
+        ExclusiveMaximum exclusiveMaximum = annotation(ExclusiveMaximum.class);
+
+        return (exclusiveMaximum != null) ? exclusiveMaximum.value() : null;
+    }
+
+    public Boolean uniqueItems()
+    {
+        UniqueItems uniqueItems = annotation(UniqueItems.class);
+
+        return (uniqueItems != null) ? uniqueItems.value() : null;
+    }
+
+    public Boolean additionalItems()
+    {
+        AdditionalItems additionalItems = annotation(AdditionalItems.class);
+
+        return (additionalItems != null) ? additionalItems.value() : null;
+    }
+
+    public Boolean additionalProperties()
+    {
+        AdditionalProperties additionalProperties = annotation(AdditionalProperties.class);
+
+        return (additionalProperties != null) ? additionalProperties.value() : null;
+    }
+
+    public Integer minProperties()
+    {
+        MinProperties minProperties = annotation(MinProperties.class);
+
+        return (minProperties != null) ? minProperties.value() : null;
+    }
+
+    public Integer maxProperties()
+    {
+        MaxProperties maxProperties = annotation(MaxProperties.class);
+
+        return (maxProperties != null) ? maxProperties.value() : null;
     }
 
     public Integer minLength()

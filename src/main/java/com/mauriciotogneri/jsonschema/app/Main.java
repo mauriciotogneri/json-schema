@@ -35,7 +35,7 @@ public class Main
         try
         {
             JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
-            URL schemaPath = getClass().getResource("/swagger-schema.json");
+            URL schemaPath = getClass().getResource("/schema.json");
             JsonSchema schema = factory.getJsonSchema(schemaPath.toString());
             JsonNode json = JsonLoader.fromString(input.toString());
 

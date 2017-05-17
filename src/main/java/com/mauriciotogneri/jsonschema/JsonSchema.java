@@ -14,8 +14,9 @@ public class JsonSchema
     private static final String TYPE_BOOLEAN = "boolean";
     private static final String TYPE_INTEGER = "integer";
     private static final String TYPE_NUMBER = "number";
-    private static final String TYPE_FILE = "file";
+    private static final String TYPE_OBJECT = "object";
     private static final String TYPE_ARRAY = "array";
+    private static final String TYPE_FILE = "file";
 
     public JsonSchema(Class<?> clazz)
     {
@@ -25,7 +26,9 @@ public class JsonSchema
 
     public JsonObject schema()
     {
-        JsonObject schema = schema(true);
+        JsonObject root = schema(true);
+        root.addProperty("$schema", "http://json-schema.org/schema#");
+
         JsonObject defs = new JsonObject();
 
         for (Class<?> clazz : definitions.classes())
@@ -34,9 +37,9 @@ public class JsonSchema
             defs.add(clazz.getCanonicalName(), jsonSchema.schema(false));
         }
 
-        schema.add("definitions", defs);
+        root.add("definitions", defs);
 
-        return schema;
+        return root;
     }
 
     private JsonObject schema(Boolean useReferences)
@@ -62,7 +65,7 @@ public class JsonSchema
             }
             else
             {
-                schema.addProperty("type", "object");
+                schema.addProperty("type", TYPE_OBJECT);
                 schema.add("properties", properties());
 
                 JsonArray required = required();
@@ -180,12 +183,52 @@ public class JsonSchema
 
         if (annotations.minimum() != null)
         {
-            json.addProperty("minimum", annotations.maximum());
+            json.addProperty("minimum", annotations.minimum());
         }
 
         if (annotations.maximum() != null)
         {
             json.addProperty("maximum", annotations.maximum());
+        }
+
+        if (annotations.multipleOf() != null)
+        {
+            json.addProperty("multipleOf", annotations.multipleOf());
+        }
+
+        if (annotations.exclusiveMinimum() != null)
+        {
+            json.addProperty("exclusiveMinimum", annotations.exclusiveMinimum());
+        }
+
+        if (annotations.exclusiveMaximum() != null)
+        {
+            json.addProperty("exclusiveMaximum", annotations.exclusiveMaximum());
+        }
+
+        if (annotations.uniqueItems() != null)
+        {
+            json.addProperty("uniqueItems", annotations.uniqueItems());
+        }
+
+        if (annotations.additionalItems() != null)
+        {
+            json.addProperty("additionalItems", annotations.additionalItems());
+        }
+
+        if (annotations.additionalProperties() != null)
+        {
+            json.addProperty("additionalProperties", annotations.additionalProperties());
+        }
+
+        if (annotations.minProperties() != null)
+        {
+            json.addProperty("minProperties", annotations.minProperties());
+        }
+
+        if (annotations.maxProperties() != null)
+        {
+            json.addProperty("maxProperties", annotations.maxProperties());
         }
 
         if (annotations.minLength() != null)

@@ -1,4 +1,4 @@
-package com.mauriciotogneri.jsonschema.specs.annotations;
+package com.mauriciotogneri.jsonschema.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

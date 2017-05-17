@@ -1,5 +1,6 @@
-package com.mauriciotogneri.jsonschema.specs.annotations;
+package com.mauriciotogneri.jsonschema.annotations;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -7,6 +8,8 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Optional
+@Documented
+public @interface MinItems
 {
+    int value();
 }

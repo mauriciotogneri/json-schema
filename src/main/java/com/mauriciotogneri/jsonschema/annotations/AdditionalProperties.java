@@ -1,4 +1,4 @@
-package com.mauriciotogneri.jsonschema.specs.annotations;
+package com.mauriciotogneri.jsonschema.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 @Documented
-public @interface Maximum
+public @interface AdditionalProperties
 {
-    int value();
+    boolean value();
 }
