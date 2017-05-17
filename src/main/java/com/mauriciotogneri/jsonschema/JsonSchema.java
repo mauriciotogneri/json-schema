@@ -61,26 +61,31 @@ public class JsonSchema
         {
             if (useReferences)
             {
-                schema.addProperty("$ref", String.format("#/definitions/%s", typeDefinition.name()));
+                fillReference(schema, typeDefinition);
             }
             else
             {
-                schema.addProperty("type", TYPE_OBJECT);
-                schema.add("properties", properties());
-
-                JsonArray required = required();
-
-                if (required.size() > 0)
-                {
-                    schema.add("required", required);
-                }
+                fillObject(schema, typeDefinition);
             }
         }
 
         return schema;
     }
 
-    private JsonObject properties()
+    private void fillObject(JsonObject json, TypeDefinition typeDefinition)
+    {
+        json.addProperty("type", TYPE_OBJECT);
+        json.add("properties", properties(typeDefinition));
+
+        JsonArray required = required();
+
+        if (required.size() > 0)
+        {
+            json.add("required", required);
+        }
+    }
+
+    private JsonObject properties(TypeDefinition typeDefinition)
     {
         JsonObject properties = new JsonObject();
 
@@ -117,20 +122,12 @@ public class JsonSchema
         }
         else
         {
-            json.addProperty("$ref", String.format("#/definitions/%s", typeDefinition.name()));
+            fillReference(json, typeDefinition);
         }
 
         applyAnnotations(json, annotations);
 
         return json;
-    }
-
-    private void fillArray(JsonObject json, TypeDefinition typeDefinition)
-    {
-        json.addProperty("type", TYPE_ARRAY);
-
-        JsonSchema componentSchema = new JsonSchema(typeDefinition.componentType());
-        json.add("items", componentSchema.schema(true));
     }
 
     private void fillPrimitive(JsonObject json, TypeDefinition typeDefinition)
@@ -179,6 +176,19 @@ public class JsonSchema
             json.addProperty("type", TYPE_STRING);
             json.add("enum", values);
         }
+    }
+
+    private void fillArray(JsonObject json, TypeDefinition typeDefinition)
+    {
+        json.addProperty("type", TYPE_ARRAY);
+
+        JsonSchema componentSchema = new JsonSchema(typeDefinition.componentType());
+        json.add("items", componentSchema.schema(true));
+    }
+
+    private void fillReference(JsonObject json, TypeDefinition typeDefinition)
+    {
+        json.addProperty("$ref", String.format("#/definitions/%s", typeDefinition.name()));
     }
 
     private void applyAnnotations(JsonObject json, Annotations annotations)

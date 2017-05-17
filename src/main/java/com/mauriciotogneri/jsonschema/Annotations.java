@@ -2,6 +2,8 @@ package com.mauriciotogneri.jsonschema;
 
 import com.mauriciotogneri.jsonschema.annotations.AdditionalItems;
 import com.mauriciotogneri.jsonschema.annotations.AdditionalProperties;
+import com.mauriciotogneri.jsonschema.annotations.AllOf;
+import com.mauriciotogneri.jsonschema.annotations.AnyOf;
 import com.mauriciotogneri.jsonschema.annotations.Default;
 import com.mauriciotogneri.jsonschema.annotations.Description;
 import com.mauriciotogneri.jsonschema.annotations.ExclusiveMaximum;
@@ -17,6 +19,8 @@ import com.mauriciotogneri.jsonschema.annotations.MinProperties;
 import com.mauriciotogneri.jsonschema.annotations.Minimum;
 import com.mauriciotogneri.jsonschema.annotations.MultipleOf;
 import com.mauriciotogneri.jsonschema.annotations.Name;
+import com.mauriciotogneri.jsonschema.annotations.Not;
+import com.mauriciotogneri.jsonschema.annotations.OneOf;
 import com.mauriciotogneri.jsonschema.annotations.Optional;
 import com.mauriciotogneri.jsonschema.annotations.Pattern;
 import com.mauriciotogneri.jsonschema.annotations.Title;
@@ -177,6 +181,34 @@ public class Annotations
         MaxItems maxItems = annotation(MaxItems.class);
 
         return (maxItems != null) ? maxItems.value() : null;
+    }
+
+    public Class<?>[] allOf()
+    {
+        AllOf allOf = annotation(AllOf.class);
+
+        return (allOf != null) ? allOf.value() : null;
+    }
+
+    public Class<?>[] anyOf()
+    {
+        AnyOf anyOf = annotation(AnyOf.class);
+
+        return (anyOf != null) ? anyOf.value() : null;
+    }
+
+    public Class<?>[] oneOf()
+    {
+        OneOf oneOf = annotation(OneOf.class);
+
+        return (oneOf != null) ? oneOf.value() : null;
+    }
+
+    public Class<?> not()
+    {
+        Not not = annotation(Not.class);
+
+        return (not != null) ? not.value() : null;
     }
 
     public String defaultValue()
