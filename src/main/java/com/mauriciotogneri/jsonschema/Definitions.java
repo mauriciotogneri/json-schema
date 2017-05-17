@@ -1,6 +1,5 @@
 package com.mauriciotogneri.jsonschema;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,9 +30,9 @@ public class Definitions
                 {
                     classes.put(className, typeDefinition.clazz());
 
-                    for (Field field : typeDefinition.fields())
+                    for (FieldDefinition field : typeDefinition.fields())
                     {
-                        addType(new TypeDefinition(field.getType()));
+                        addType(field.typeDefinition());
                     }
                 }
             }

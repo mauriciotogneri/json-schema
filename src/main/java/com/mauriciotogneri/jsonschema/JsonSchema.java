@@ -3,8 +3,6 @@ package com.mauriciotogneri.jsonschema;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.lang.reflect.Field;
-
 public class JsonSchema
 {
     private final TypeDefinition typeDefinition;
@@ -89,11 +87,11 @@ public class JsonSchema
     {
         JsonObject properties = new JsonObject();
 
-        for (Field field : typeDefinition.fields())
+        for (FieldDefinition field : typeDefinition.fields())
         {
-            Annotations annotations = new Annotations(field);
+            Annotations annotations = field.annotations();
 
-            String name = field.getName();
+            String name = field.name();
 
             if (annotations.name() != null)
             {
@@ -106,11 +104,11 @@ public class JsonSchema
         return properties;
     }
 
-    private JsonObject property(Field field, Annotations annotations)
+    private JsonObject property(FieldDefinition field, Annotations annotations)
     {
         JsonObject json = new JsonObject();
 
-        TypeDefinition typeDefinition = new TypeDefinition(field.getType());
+        TypeDefinition typeDefinition = field.typeDefinition();
 
         if (typeDefinition.isPrimitive())
         {
@@ -293,13 +291,13 @@ public class JsonSchema
     {
         JsonArray required = new JsonArray();
 
-        for (Field field : typeDefinition.fields())
+        for (FieldDefinition field : typeDefinition.fields())
         {
-            Annotations annotations = new Annotations(field);
+            Annotations annotations = field.annotations();
 
             if (!annotations.optional())
             {
-                required.add(field.getName());
+                required.add(field.name());
             }
         }
 

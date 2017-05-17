@@ -24,9 +24,18 @@ public class TypeDefinition
         return clazz.getCanonicalName();
     }
 
-    public Field[] fields()
+    public FieldDefinition[] fields()
     {
-        return clazz.getDeclaredFields();
+        Field[] fields = clazz.getDeclaredFields();
+
+        FieldDefinition[] result = new FieldDefinition[fields.length];
+
+        for (int i = 0; i < fields.length; i++)
+        {
+            result[i] = new FieldDefinition(fields[i]);
+        }
+
+        return result;
     }
 
     public Object[] enums()
