@@ -177,6 +177,16 @@ public class JsonSchema
             json.addProperty("description", annotations.description());
         }
 
+        if (annotations.title() != null)
+        {
+            json.addProperty("title", annotations.title());
+        }
+
+        if (annotations.defaultValue() != null)
+        {
+            json.addProperty("default", annotations.defaultValue());
+        }
+
         if (annotations.format() != null)
         {
             json.addProperty("format", annotations.format());

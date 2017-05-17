@@ -19,6 +19,7 @@ import com.mauriciotogneri.jsonschema.annotations.MultipleOf;
 import com.mauriciotogneri.jsonschema.annotations.Name;
 import com.mauriciotogneri.jsonschema.annotations.Optional;
 import com.mauriciotogneri.jsonschema.annotations.Pattern;
+import com.mauriciotogneri.jsonschema.annotations.Title;
 import com.mauriciotogneri.jsonschema.annotations.UniqueItems;
 
 import java.lang.annotation.Annotation;
@@ -43,6 +44,13 @@ public class Annotations
         Name name = annotation(Name.class);
 
         return (name != null) ? name.value() : null;
+    }
+
+    public String title()
+    {
+        Title title = annotation(Title.class);
+
+        return (title != null) ? title.value() : null;
     }
 
     public Boolean optional()
@@ -171,7 +179,7 @@ public class Annotations
         return (maxItems != null) ? maxItems.value() : null;
     }
 
-    public String[] defaultValue()
+    public String defaultValue()
     {
         Default defaultValue = annotation(Default.class);
 
