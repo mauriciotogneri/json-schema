@@ -1,15 +1,11 @@
 package com.mauriciotogneri.jsonschema.app;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.fge.jsonschema.main.JsonSchema;
-import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-
-import java.net.URL;
+import com.mauriciotogneri.jsonschema.JsonSchema;
+import com.mauriciotogneri.jsonschema.SchemaValidator;
 
 public class Main
 {
@@ -19,32 +15,20 @@ public class Main
         main.run();
     }
 
-    public void run()
+    public void run() throws Exception
     {
-        com.mauriciotogneri.jsonschema.JsonSchema schema = new com.mauriciotogneri.jsonschema.JsonSchema(Person.class);
+        JsonSchema schema = new JsonSchema(Person.class);
         JsonObject json = schema.schema();
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         System.out.println(gson.toJson(json));
 
-        checkSchema(json);
-    }
+        SchemaValidator schemaValidator = new SchemaValidator();
+        ProcessingReport report = schemaValidator.validate(json);
 
-    private void checkSchema(JsonObject input)
-    {
-        try
+        if (!report.isSuccess())
         {
-            JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
-            URL schemaPath = getClass().getResource("/schema.json");
-            JsonSchema schema = factory.getJsonSchema(schemaPath.toString());
-            JsonNode json = JsonLoader.fromString(input.toString());
-
-            ProcessingReport report = schema.validate(json);
             System.out.println(report);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
         }
     }
 }
