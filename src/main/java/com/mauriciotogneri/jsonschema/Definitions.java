@@ -14,6 +14,11 @@ public class Definitions implements Iterable<TypeDefinition>
         addType(typeDefinition);
     }
 
+    public Definitions()
+    {
+        this.definitions = new HashMap<>();
+    }
+
     public void addType(TypeDefinition typeDefinition)
     {
         if (!typeDefinition.isPrimitive() && !typeDefinition.isRootObject())

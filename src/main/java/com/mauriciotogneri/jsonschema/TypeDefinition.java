@@ -1,6 +1,7 @@
 package com.mauriciotogneri.jsonschema;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.Date;
@@ -41,6 +42,11 @@ public class TypeDefinition
     public Object[] enums()
     {
         return clazz.getEnumConstants();
+    }
+
+    public Annotation[] annotations()
+    {
+        return clazz.getAnnotations();
     }
 
     public TypeDefinition componentType()

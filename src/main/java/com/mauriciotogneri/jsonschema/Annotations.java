@@ -43,6 +43,11 @@ public class Annotations
         this.annotations = clazz.getAnnotations();
     }
 
+    public Annotations(TypeDefinition typeDefinition)
+    {
+        this.annotations = typeDefinition.annotations();
+    }
+
     public String name()
     {
         Name name = annotation(Name.class);
