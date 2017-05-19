@@ -9,23 +9,43 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
-import java.net.URL;
 
 public class SchemaValidator
 {
-    public ProcessingReport validate(JsonObject input, JsonSchema schema) throws ProcessingException, IOException
-    {
-        JsonNode json = JsonLoader.fromString(input.toString());
+    private final JsonSchema schema;
 
-        return schema.validate(json);
+    public SchemaValidator(JsonSchema schema)
+    {
+        this.schema = schema;
+    }
+
+    public SchemaValidator(String path) throws ProcessingException
+    {
+        this.schema = schema(path);
+    }
+
+    public SchemaValidator() throws ProcessingException
+    {
+        this.schema = schema(getClass().getResource("/schema.json").toString());
+    }
+
+    private JsonSchema schema(String path) throws ProcessingException
+    {
+        return JsonSchemaFactory.byDefault().getJsonSchema(path);
     }
 
     public ProcessingReport validate(JsonObject input) throws ProcessingException, IOException
     {
-        JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
-        URL schemaPath = getClass().getResource("/schema.json");
-        JsonSchema schema = factory.getJsonSchema(schemaPath.toString());
+        return validate(input.toString());
+    }
 
-        return validate(input, schema);
+    public ProcessingReport validate(String input) throws ProcessingException, IOException
+    {
+        return validate(JsonLoader.fromString(input));
+    }
+
+    public ProcessingReport validate(JsonNode input) throws ProcessingException
+    {
+        return schema.validate(input);
     }
 }

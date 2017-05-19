@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.mauriciotogneri</groupId>
     <artifactId>json-schema</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <name>JSON Schema</name>
     <packaging>jar</packaging>
     <url>https://github.com/mauriciotogneri/json-schema</url>
