@@ -1,5 +1,5 @@
 # JSON Schema
-A Java library to generate JSON Schema files.
+A Java library to generate JSON Schemas.
 
 ## Installation
 
