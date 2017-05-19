@@ -13,13 +13,19 @@ import java.net.URL;
 
 public class SchemaValidator
 {
+    public ProcessingReport validate(JsonObject input, JsonSchema schema) throws ProcessingException, IOException
+    {
+        JsonNode json = JsonLoader.fromString(input.toString());
+
+        return schema.validate(json);
+    }
+
     public ProcessingReport validate(JsonObject input) throws ProcessingException, IOException
     {
         JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
         URL schemaPath = getClass().getResource("/schema.json");
         JsonSchema schema = factory.getJsonSchema(schemaPath.toString());
-        JsonNode json = JsonLoader.fromString(input.toString());
 
-        return schema.validate(json);
+        return validate(input, schema);
     }
 }

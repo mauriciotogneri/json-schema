@@ -16,7 +16,7 @@ public class JsonSchema
     private static final String TYPE_ARRAY = "array";
     private static final String TYPE_FILE = "file";
 
-    private JsonSchema(TypeDefinition typeDefinition)
+    public JsonSchema(TypeDefinition typeDefinition)
     {
         this.typeDefinition = typeDefinition;
         this.definitions = new Definitions(typeDefinition);

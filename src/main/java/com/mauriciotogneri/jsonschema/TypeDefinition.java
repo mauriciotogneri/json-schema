@@ -14,6 +14,11 @@ public class TypeDefinition
         this.clazz = clazz;
     }
 
+    public Class<?> type()
+    {
+        return clazz;
+    }
+
     public String name()
     {
         return clazz.getCanonicalName();

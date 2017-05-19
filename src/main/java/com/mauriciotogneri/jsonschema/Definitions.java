@@ -14,7 +14,7 @@ public class Definitions implements Iterable<TypeDefinition>
         addType(typeDefinition);
     }
 
-    private void addType(TypeDefinition typeDefinition)
+    public void addType(TypeDefinition typeDefinition)
     {
         if (!typeDefinition.isPrimitive() && !typeDefinition.isRootObject())
         {
