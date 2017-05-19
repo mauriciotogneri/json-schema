@@ -19,6 +19,14 @@ public class SchemaValidator
         this.schema = schema;
     }
 
+    public SchemaValidator(JsonObject json) throws IOException, ProcessingException
+    {
+        JsonNode schemaNode = JsonLoader.fromString(json.toString());
+        JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
+
+        this.schema = factory.getJsonSchema(schemaNode);
+    }
+
     public SchemaValidator(String path) throws ProcessingException
     {
         this.schema = schema(path);

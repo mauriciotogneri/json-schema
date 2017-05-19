@@ -20,6 +20,6 @@ and the dependency:
     <dependency>
         <groupId>com.github.mauriciotogneri</groupId>
         <artifactId>json-schema</artifactId>
-        <version>0.5.0</version>
+        <version>0.6.0</version>
     </dependency>
 ```
