@@ -1,3 +1,6 @@
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/mauriciotogneri/json-schema/blob/master/LICENSE.md)
+[![Download](https://api.bintray.com/packages/mauriciotogneri/maven/jsonschema/images/download.svg)](https://bintray.com/mauriciotogneri/maven/jsonschema/_latestVersion)
+
 # JSON Schema
 A Java library to generate JSON Schemas.
 
@@ -6,20 +9,29 @@ A Java library to generate JSON Schemas.
 Add the following code to your **pom.xml**:
 
 ```xml
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
+<repositories>
+    <repository>
+        <id>jcenter</id>
+        <url>https://jcenter.bintray.com</url>
+    </repository>
+</repositories>
 ```
 
 and the dependency:
 
 ```xml
-    <dependency>
-        <groupId>com.github.mauriciotogneri</groupId>
-        <artifactId>json-schema</artifactId>
-        <version>0.6.0</version>
-    </dependency>
+<dependency>
+    <groupId>com.mauriciotogneri</groupId>
+    <artifactId>jsonschema</artifactId>
+    <version>0.7.0</version>
+</dependency>
+```
+
+or if you use Gradle:
+
+```groovy
+dependencies
+{
+    compile 'com.mauriciotogneri:jsonschema:0.7.0'
+}
 ```
