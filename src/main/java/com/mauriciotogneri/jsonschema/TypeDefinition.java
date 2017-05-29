@@ -94,6 +94,11 @@ public class TypeDefinition
         return (clazz.isEnum());
     }
 
+    public Boolean isNull()
+    {
+        return (clazz.equals(Null.class));
+    }
+
     public Boolean isArray()
     {
         return (clazz.isArray());
@@ -101,7 +106,7 @@ public class TypeDefinition
 
     public Boolean isPrimitive()
     {
-        return (isString() || isBoolean() || isInteger() || isNumber() || isDate() || isUri() || isFile() || isEnum());
+        return (isString() || isBoolean() || isInteger() || isNumber() || isDate() || isUri() || isFile() || isEnum() || isNull());
     }
 
     public Boolean isRootObject()

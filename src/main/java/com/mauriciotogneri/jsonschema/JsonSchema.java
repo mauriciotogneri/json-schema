@@ -13,6 +13,7 @@ public class JsonSchema
     private static final String TYPE_INTEGER = "integer";
     private static final String TYPE_NUMBER = "number";
     private static final String TYPE_OBJECT = "object";
+    private static final String TYPE_NULL = "null";
     private static final String TYPE_ARRAY = "array";
     private static final String TYPE_FILE = "file";
 
@@ -214,6 +215,10 @@ public class JsonSchema
         else if (typeDefinition.isFile())
         {
             json.addProperty("type", TYPE_FILE);
+        }
+        else if (typeDefinition.isNull())
+        {
+            json.addProperty("type", TYPE_NULL);
         }
         else if (typeDefinition.isEnum())
         {
