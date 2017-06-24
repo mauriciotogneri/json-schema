@@ -23,7 +23,7 @@ and the dependency:
 <dependency>
     <groupId>com.mauriciotogneri</groupId>
     <artifactId>jsonschema</artifactId>
-    <version>0.8.0</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -32,6 +32,6 @@ or if you use Gradle:
 ```groovy
 dependencies
 {
-    compile 'com.mauriciotogneri:jsonschema:0.8.0'
+    compile 'com.mauriciotogneri:jsonschema:1.0.0'
 }
 ```

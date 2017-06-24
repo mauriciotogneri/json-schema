@@ -27,7 +27,7 @@ public class TypeDefinition
 
     public FieldDefinition[] fields()
     {
-        Field[] fields = clazz.getDeclaredFields();
+        Field[] fields = clazz.getFields();
 
         FieldDefinition[] result = new FieldDefinition[fields.length];
 
